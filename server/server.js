@@ -4,6 +4,7 @@ const colors = require("colors");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const db = require("./utils/db");
+const autRoutes = require("./routes/auth.route");
 dotenv.config();
 colors.enable();
 
@@ -12,7 +13,7 @@ const PORT = process.env.PORT || 5001;
 /**
  * Middlewares
  */
-app.use(cors({origin: ["http://localhost:3000"], secure: true}));
+app.use(cors({origin: ["http://localhost:3000","*"], secure: true}));
 app.use(express.json());
 app.use(express.raw());
 app.use(bodyParser.json());
@@ -28,6 +29,8 @@ app.get("/",(req,res)=>{
     res.status(200).contentType("application/json").json({message:"Server is alive"});
 });
 
+app.use("/auth",autRoutes)
+
 db((database) => {
     if (database) {
         app.listen(PORT, () => {
@@ -36,5 +39,5 @@ db((database) => {
     }else {
         console.error(`ERROR: Error starting application`.bgRed)
     }
-})
+}).then(()=>console.log(`LOG: Just a log`.bgBlue))
 
