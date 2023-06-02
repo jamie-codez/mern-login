@@ -28,11 +28,13 @@ app.get("/",(req,res)=>{
     res.status(200).contentType("application/json").json({message:"Server is alive"});
 });
 
-db((db) => {
-    if (db) {
+db((database) => {
+    if (database) {
         app.listen(PORT, () => {
             console.info(`INFO: Server started on port ${PORT}`.bgGreen);
         });
+    }else {
+        console.error(`ERROR: Error starting application`.bgRed)
     }
 })
 
