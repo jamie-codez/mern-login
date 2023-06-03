@@ -48,17 +48,17 @@ const login = async (req, res) => {
             res.statusMessage = "Forbidden"
             return res.status(401).contentType("application/json").json(getResponse(401, "Invalid credentials", {}))
         }
-        res.statusMessage = "OK"
+        res.statusMessage = "Ok"
         res.status(200).contentType("application/json").json(getResponse(200, "Login successful", generateTokens(user.email)));
     }, (error) => {
-        console.error(`ERROR: ${error.message}`)
+        console.error(`ERROR: ${error}`)
         res.statusMessage = "Internal Server error"
         res.status(500).contentType("application/json").json(getResponse(500, `Error occurred try again. -> ${error.message}`, {}))
     });
 }
 
 const logout = async (req, res) => {
-    res.statusMessage = "OK"
+    res.statusMessage = "Ok"
     res.status(200).contentType("application/json").json(getResponse(200, "Logout successful", {}))
 }
 
