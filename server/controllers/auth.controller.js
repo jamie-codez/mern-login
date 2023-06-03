@@ -14,19 +14,19 @@ const register = async (req, res) => {
             res.statusMessage = "Conflict"
             return res.status(409).contentType("application/json").json(getResponse(409, "User already exists", {}));
         }
-        const encodedPass = await hash(password, genSalt(10));
-        await saveUser({username, email, encodedPass}, (mUser) => {
+        const encodedPass = await hash(password, await genSalt(10));
+        await saveUser({...req.body,encodedPass}, (mUser) => {
             res.statusMessage = "Created"
             res.status(201).contentType("application/json").json(getResponse(201, "User created successfully", {
                 username: mUser.username, "email": mUser.email
             }))
         }, (error) => {
-            console.error(`ERROR: ${error.message}`.bgRed);
+            console.error(`ERROR: ${error}`.bgRed);
             res.statusMessage = "Internal server error"
             res.status(500).contentType("application/json").json(getResponse(500, "Error occurred try again", {}))
         });
     }, (error) => {
-        console.error(`ERROR: ${error.message}`.bgRed)
+        console.error(`ERROR: ${error}`.bgRed)
         res.statusMessage = "Internal server error"
         res.status(500).contentType("application/json").json(getResponse(500, "Error occurred try again", {}))
     });
