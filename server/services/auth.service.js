@@ -1,7 +1,7 @@
 const User = require("../models/User.model");
 
 const findUser = async (payload, success, fail) => {
-    await User.findOne({payload})
+    await User.findOne(payload)
         .then(async user => await success(user))
         .catch(async error => await fail(`Error occurred in finding -> ${error.message}`));
 }

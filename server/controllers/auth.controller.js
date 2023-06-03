@@ -9,13 +9,13 @@ const register = async (req, res) => {
         res.statusMessage = "Bad Request"
         return res.status(400).contentType("application/json").json(getResponse(400, "Please fill all the fields", {}))
     }
-    await findUser({email: email}, async (user) => {
+    await findUser({email}, async (user) => {
         if (user) {
             res.statusMessage = "Conflict"
             return res.status(409).contentType("application/json").json(getResponse(409, "User already exists", {}));
         }
         const encodedPass = await hash(password, await genSalt(10));
-        await saveUser({...req.body,encodedPass}, (mUser) => {
+        await saveUser({username,email,password:encodedPass}, (mUser) => {
             res.statusMessage = "Created"
             res.status(201).contentType("application/json").json(getResponse(201, "User created successfully", {
                 username: mUser.username, "email": mUser.email
