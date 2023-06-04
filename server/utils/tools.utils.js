@@ -1,3 +1,5 @@
+const jsonWebToken = require("jsonwebtoken");
+
 const getResponse = (code, message, payload) => {
     return {
         code: code,
@@ -6,4 +8,8 @@ const getResponse = (code, message, payload) => {
     }
 }
 
-module.exports = {getResponse}
+const generateTokens = (payload) => {
+    return {access_token: jsonWebToken.sign(payload, process.env.JWT_SECRET)}
+}
+
+module.exports = {getResponse,generateTokens}

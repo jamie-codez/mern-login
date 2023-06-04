@@ -17,7 +17,7 @@ server/build
 # locks
 client/package-lock.json
 server/package-lock.json
-
+ .gitignore
 
 
 # misc
